@@ -7,9 +7,7 @@ class CollectionExercise {
     public static void main(String[] args) {
         List<String> collectedInputs = collectInputs();
         LinkedHashMap<String, Integer> collectedWordsWithFrequencyCount = separateMultipleWordsAndCountFrequency(collectedInputs);
-        getTopTreeFrequentWords(collectedWordsWithFrequencyCount).forEach((word, count) ->{
-            System.out.println(word + ": " + count);
-        });
+        getTopTreeFrequentWords(collectedWordsWithFrequencyCount).forEach((word, count) -> System.out.println(word + ": " + count));
     }
 
     public static List<String> collectInputs() {
@@ -23,9 +21,7 @@ class CollectionExercise {
             System.out.println("input is: " + input);  // Output user input
 
             if(!input.equalsIgnoreCase("exit")) {
-                separateMultipleWords(input).forEach(word->{
-                    words.add(word);
-                });
+                words.addAll(separateMultipleWords(input));
             }
 
         } while (!(input.equalsIgnoreCase("exit")));
@@ -34,17 +30,14 @@ class CollectionExercise {
     }
 
     public static List<String> separateMultipleWordsWithoutDuplicates(String str) {
-        List<String> separatedWords = Arrays.asList(str.split(" "))
-                .stream()
+        return Arrays.stream(str.split(" "))
                 .distinct()
                 .collect(Collectors.toList());
-        return separatedWords;
     }
 
     public static List<String> separateMultipleWords(String str) {
-        List<String> separatedWords = Arrays.asList(str.split(" "));
 
-        return separatedWords;
+        return Arrays.asList(str.split(" "));
     }
 
     public static LinkedHashMap<String, Integer> separateMultipleWordsAndCountFrequency(List<String> words) {
@@ -64,20 +57,12 @@ class CollectionExercise {
 
         // 2. convert LinkedHashMap to List of Map.Entry
         List<Map.Entry<String, Integer>> listEntrySet =
-                new ArrayList<Map.Entry<String, Integer>>(
+                new ArrayList<>(
                         entrySet);
 
 
         // 3. sort list of entries using Collections class'
-        Collections.sort(listEntrySet,
-                new Comparator<Map.Entry<String, Integer>>() {
-
-                    @Override
-                    public int compare(Map.Entry<String, Integer> es1,
-                                       Map.Entry<String, Integer> es2) {
-                        return es2.getValue() - es1.getValue();
-                    }
-                });
+        listEntrySet.sort((es1, es2) -> es2.getValue() - es1.getValue());
 
         // 5. iterating list and storing in LinkedHahsMap
         for(Map.Entry<String, Integer> map : listEntrySet.subList(0, 3)){
